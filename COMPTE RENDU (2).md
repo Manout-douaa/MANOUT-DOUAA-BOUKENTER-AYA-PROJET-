@@ -15,27 +15,10 @@
 
 ---
 
-<img src="https://github.com/user-attachments/assets/0e65f63b-0939-47fa-af9e-7e9fde81dfce" width="600">
+<img src="https://github.com/Manout-douaa/MANOUT-DOUAA-BOUKENTER-AYA-PROJET-/blob/main/PDP/PDP_BINOME.png" width="600">
 
 ---
 
-<h4>👩‍🎓 Équipe projet</h4>
-
-<div style="display: flex; justify-content: center; gap: 60px; margin-top: 20px; flex-wrap: wrap;">
-
-  <div style="text-align: center;">
-    <img src="photo-douaa.jpeg" width="150" style="border-radius: 50%;">
-    <p><b>MANOUT Douaa</b><br>24010419</p>
-  </div>
-
-  <div style="text-align: center;">
-    <img src="photo-aya.jpeg" width="150" style="border-radius: 50%;">
-    <p><b>BOUKENTER Aya</b><br>24010273</p>
-  </div>
-
-</div>
-
----
 
 <img src="https://github.com/user-attachments/assets/dc16b4b6-d35e-49cf-81a7-47109716749b" width="250">
 
