@@ -1,5 +1,5 @@
 <div align="Left">
-  <img src="https://github.com/riaddouaaencg-lab/S8-22006170-23009580-22007263/blob/main/Projet%20S8%20final/Graphiques/ENCG-S.png?raw=true" 
+  <img src="https://github.com/Manout-douaa/MANOUT-DOUAA-BOUKENTER-AYA-PROJET-/blob/main/PDP/ENCG-S.png" 
        width="50" 
        style="border: 2px solid black; padding: 5px; border-radius: 8px;">
 </div>
