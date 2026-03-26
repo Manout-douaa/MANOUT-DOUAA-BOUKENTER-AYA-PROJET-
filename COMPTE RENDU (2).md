@@ -19,11 +19,6 @@
 
 ---
 
-
-<img src="https://github.com/user-attachments/assets/dc16b4b6-d35e-49cf-81a7-47109716749b" width="250">
-
----
-
 *Rapport réalisé dans le cadre du projet de fin de semestre*
 
 </div>
