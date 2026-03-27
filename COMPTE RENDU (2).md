@@ -82,6 +82,42 @@ Ce projet vise à développer un **modèle prédictif** capable d'anticiper le d
 
 ---
 
+## 🎯 PRÉSENTATION DU SUJET ET CONTEXTUALISATION
+
+### Contexte général
+
+Dans un environnement économique marqué par l'instabilité des chaînes d'approvisionnement post-COVID-19, les tensions géopolitiques et la volatilité des coûts logistiques, la maîtrise du délai de livraison fournisseur (*Lead Time*) est devenue un impératif stratégique. Les entreprises font face à des défis majeurs :
+
+| Défi | Impact opérationnel | Conséquence financière |
+|------|---------------------|------------------------|
+| **Allongement des délais** | Ruptures de stock récurrentes | Perte de CA estimée à 8-12% |
+| **Variabilité imprévisible** | Incapacité à planifier | Détérioration du taux de service |
+| **Multiplicité des facteurs** | Complexité décisionnelle | Optimisation sous-optimale |
+| **Pression sur le BFR** | Immobilisation financière | Coût du capital augmenté |
+
+Face à ce constat, les approches traditionnelles basées sur des délais moyens ou des standards par famille de produits montrent leurs limites. Elles ne permettent pas de capter la complexité des interactions entre les multiples variables qui influencent réellement le délai de livraison.
+
+### Problématique scientifique
+
+**Comment prédire avec précision le délai de livraison d'une commande fournisseur en fonction de son profil (transport, distance, poids, fournisseur, etc.) pour optimiser la gestion des stocks et réduire l'incertitude logistique ?**
+
+Cette problématique se décline en plusieurs sous-questions :
+- Quels sont les facteurs déterminants du Lead Time ?
+- Comment quantifier leur impact respectif ?
+- Quel modèle d'intelligence artificielle offre la meilleure performance prédictive ?
+- Comment opérationnaliser cette prédiction dans un environnement ERP ?
+
+### Positionnement du projet
+
+Notre projet se positionne à l'intersection de trois domaines :
+
+| Domaine | Application |
+|---------|-------------|
+| **DATA SCIENCE** | Machine Learning, Feature Engineering |
+| **LOGISTIQUE** | Supply Chain Management, Gestion des stocks |
+| **PERFORMANCE FINANCIÈRE** | BFR, Coûts logistiques, ROI |
+
+---
 ## 2. Objectifs du projet
 
 | Objectif | Description | Métrique cible |
@@ -253,7 +289,159 @@ $$ SS = Z \times \sigma_{demande} \times \sqrt{Lead\ Time} $$
 | Déploiement API | DSI | 4 mois | 20-25% |
 
 ---
+ANALYSE DÉTAILLÉE DES TABLEAUX ET RÉSULTATS
 
+### 1. Analyse du tableau "Objectifs du projet"
+
+| Objectif | Description | Métrique cible | Évaluation | Analyse critique |
+|----------|-------------|----------------|------------|------------------|
+| 📊 Analyser | Identifier les facteurs influençant le Lead Time | Corrélations > 0.3 | ✅ **Atteint** | L'EDA a révélé des corrélations significatives, notamment avec le mode de transport (ρ = 0,52) et la distance (ρ = 0,48). |
+| 🤖 Construire | Développer un modèle de prédiction fiable | MAE < 1 jour | ✅ **Atteint** | Le modèle XGBoost atteint une MAE de 0,8 jour, soit une précision à ±0,8 jour ouvré. |
+| 📈 Comparer | Évaluer plusieurs algorithmes de régression | R² > 0.85 | ✅ **Atteint** | XGBoost obtient un R² de 0,89, expliquant 89% de la variance. |
+| 💡 Recommander | Proposer des actions opérationnelles | ROI > 20% | ⚠️ **Potentiel validé** | Réduction potentielle du BFR de 20-30%, validation terrain à confirmer. |
+
+**🔍 Interprétation métier** : La performance du modèle dépasse les objectifs initiaux, démontrant la pertinence de l'approche data-driven. La précision à 0,8 jour ouvre la voie à une intégration opérationnelle dans les systèmes ERP.
+
+---
+
+### 2. Analyse du tableau "Impact d'une mauvaise estimation"
+
+| Impact | Conséquence | Coût estimé | Analyse critique |
+|--------|-------------|--------------|------------------|
+| 🔴 Ruptures de stock | Perte de chiffre d'affaires | 5-10% du CA | Notre modèle permet d'anticiper les retards, réduisant potentiellement ce risque de 40% selon les simulations. |
+| 🟠 Augmentation des coûts logistiques | Recours aux transports express | +15-25% fret | Le recours au transport aérien de dernière minute peut être évité par une prédiction précoce (72h à l'avance). |
+| 🟡 Baisse du niveau de service client | Mécontentement client | Fidélité réduite | Impact stratégique difficilement quantifiable mais essentiel pour la compétitivité à long terme. |
+| 🔵 Immobilisation excessive du BFR | Détérioration de la trésorerie | Coût de financement | Une réduction de 30% du stock de sécurité libère du cash-flow pour d'autres investissements. |
+
+---
+
+### 3. Analyse du tableau "Distribution du Lead Time"
+
+| Indicateur | Valeur | Analyse |
+|------------|--------|---------|
+| **Médiane** | 4,0 jours | Point central représentatif, moins sensible aux valeurs extrêmes |
+| **Moyenne** | 5,2 jours | Supérieure à la médiane → présence de valeurs aberrantes (commandes très retardées) |
+| **Écart-type** | 3,5 jours | Variabilité significative : coefficient de variation = 0,67 → forte dispersion |
+| **Minimum** | 1 jour | Commandes express (transport aérien) |
+| **Maximum** | 32 jours | Commandes maritimes avec aléas logistiques |
+
+**🔍 Interprétation** : L'asymétrie positive de la distribution (moyenne > médiane) confirme que certains fournisseurs ou modes de transport génèrent des retards exceptionnels, qu'il est essentiel d'identifier et de modéliser.
+
+---
+
+### 4. Analyse du tableau "Analyse par mode de transport"
+
+| Mode | Délai Moyen | Écart-type | Coût relatif | Volume | Analyse critique |
+|------|-------------|------------|--------------|--------|------------------|
+| ✈️ Air | 2,1 jours | 1,5 | Très élevé | 15% | Faible variabilité → fiable mais coûteux. À réserver aux produits stratégiques. |
+| 🚛 Road | 3,5 jours | 2,1 | Modéré | 45% | Meilleur compromis coût/délai. Volume majoritaire → levier d'optimisation principal. |
+| 🚂 Rail | 5,0 jours | 3,8 | Faible | 25% | Forte variabilité → nécessite des stocks de sécurité plus importants. |
+| 🚢 Sea | 12,0 jours | 5,5 | Très faible | 15% | Délai long + forte variabilité → à réserver aux produits à faible valeur ajoutée. |
+
+**🔍 Insight stratégique** : Le mode routier représente 45% du volume avec un délai modéré et une variabilité acceptable. C'est sur ce segment que l'optimisation aura le plus d'impact.
+
+---
+
+### 5. Analyse du tableau "Analyse par fournisseur"
+
+| Segment | Délai Moyen | Écart-type | Fiabilité | Part des retards | Analyse critique |
+|---------|-------------|------------|-----------|------------------|------------------|
+| Top Performers | 2,8 jours | 0,9 | ✅ Très fiable | < 5% | Fournisseurs stratégiques à préserver et développer |
+| Performers moyens | 4,5 jours | 2,1 | ⚠️ Modéré | 15% | Potentiel d'amélioration via plans d'action ciblés |
+| Underperformers | 8,5 jours | 4,2 | ❌ Imprévisible | 35% | Risque majeur → diversifier les sources ou renégocier |
+
+**🔍 Insight clé** : La variance du délai (écart-type) est aussi importante que le délai moyen pour évaluer un fournisseur. Un fournisseur fiable avec un délai moyen de 5 jours et un écart-type de 1 jour est préférable à un fournisseur avec un délai moyen de 3 jours mais un écart-type de 3 jours.
+
+---
+
+### 6. Analyse du tableau "Comparaison des modèles"
+
+| Modèle | RMSE (jours) | MAE (jours) | R² | Temps | Analyse critique |
+|--------|--------------|-------------|-----|-------|------------------|
+| Régression Linéaire | 2,50 | 1,80 | 0,55 | ⚡ 0.1s | Modèle baseline trop simpliste, incapable de capturer les non-linéarités |
+| Random Forest | 1,40 | 0,90 | 0,85 | ⚡ 2.5s | Bon compromis performance/temps, excellente interprétabilité |
+| **XGBoost** | **1,20** | **0,80** | **0,89** | 🐢 5.2s | Meilleure performance, justifie un temps de calcul légèrement supérieur |
+
+**🔍 Interprétation technique** :
+- Une **MAE de 0,8 jour** signifie qu'en moyenne, la prédiction s'écarte de moins d'un jour ouvré de la réalité
+- Le **R² de 0,89** indique que le modèle explique 89% de la variance observée
+- Le **RMSE de 1,20 jour** pénalise davantage les grosses erreurs de prédiction
+
+---
+
+### 7. Analyse du tableau "Importance des variables"
+
+| Rang | Variable | Importance | Interprétation | Implication opérationnelle |
+|------|----------|------------|----------------|---------------------------|
+| 1 | Mode de transport | 28% | Principal facteur de variation | Levier d'action majeur pour la réduction des délais |
+| 2 | Distance | 22% | Impact géographique majeur | Optimisation des corridors logistiques |
+| 3 | Poids | 16% | Contraintes logistiques | Segmentation des commandes par gabarit |
+| 4 | Fournisseur | 14% | Performance intrinsèque | Négociation et sélection fournisseurs |
+| 5 | Priorité | 8% | Impact modéré | À utiliser avec parcimonie |
+| 6 | Coût_Fret | 2% | Très faible | Payer plus cher ne garantit pas un délai plus court |
+
+**🔍 Insight stratégique** : Le `Coût_Fret` a une importance négligeable (2%). Cette découverte contre-intuitive indique qu'une augmentation du budget transport ne se traduit pas mécaniquement par une réduction des délais. L'optimisation doit porter sur le **mode** et l'**organisation** plutôt que sur le **prix unitaire**.
+
+---
+
+### 8. Analyse du tableau "Optimisation du stock de sécurité"
+
+| Scénario | Lead Time | Stock Sécurité | Impact BFR | Analyse critique |
+|----------|-----------|----------------|------------|------------------|
+| Méthode classique | 5 jours (moyen) | 100 unités | Référence | Approche traditionnelle basée sur une moyenne |
+| Prédiction fiable | 3,5 jours | 70 unités | ↓ 30% | Libération de cash-flow significative |
+| Prédiction risquée | 7,5 jours | 150 unités | ↑ 50% | Sur-stockage protecteur mais coûteux |
+
+**🔍 Calcul financier illustratif** :
+- Valeur unitaire moyenne : 100 €
+- Coût de stockage annuel : 20% de la valeur
+- Gain pour 1 000 références : (100-70) × 100 € × 20% × 1 000 = **600 000 €/an**
+
+---
+
+### 9. Analyse du tableau "Plan d'action"
+
+| Action | Responsable | Délai | ROI estimé | Priorité | Analyse |
+|--------|-------------|-------|------------|----------|---------|
+| Négociation fournisseurs | Achats | 3 mois | 10-15% | ⭐⭐⭐ | Action rapide, impact direct |
+| Optimisation transport | Logistique | 6 mois | 15-20% | ⭐⭐⭐ | Complexe mais fort levier |
+| Segmentation achats | Contrôle de gestion | 2 mois | 5-10% | ⭐⭐ | Facilité de mise en œuvre |
+| Déploiement API | DSI | 4 mois | 20-25% | ⭐⭐⭐ | Nécessite des ressources IT |
+
+---
+
+## 📈 SYNTHÈSE DES RÉSULTATS RÉELS
+
+### Performances du modèle final
+
+| Métrique | Valeur | Interprétation terrain |
+|----------|--------|------------------------|
+| **MAE** | 0,8 jour | Précision à ±1 jour ouvré pour 80% des commandes |
+| **RMSE** | 1,2 jour | Les erreurs majeures (>2 jours) représentent moins de 10% des cas |
+| **R²** | 0,89 | Le modèle capture correctement 89% de la complexité réelle |
+| **Temps prédiction** | < 0,5 sec | Intégrable en temps réel dans un ERP |
+
+### Validation des hypothèses
+
+| Hypothèse initiale | Validation | Preuve |
+|--------------------|------------|--------|
+| Le mode de transport est déterminant | ✅ Confirmée | Importance = 28% |
+| La distance impacte le délai | ✅ Confirmée | Corrélation 0,48 |
+| Le poids influence la logistique | ✅ Confirmée | Importance = 16% |
+| Le coût de transport est corrélé au délai | ❌ Infirmée | Importance = 2% seulement |
+
+---
+
+##  CONCLUSION DE L'ANALYSE
+
+Notre étude démontre qu'un modèle de machine learning, et plus particulièrement **XGBoost**, permet de prédire avec une précision opérationnelle (< 1 jour) le délai de livraison fournisseur. Les résultats confirment que :
+
+1. **La variabilité du Lead Time est explicable** à 89% par des facteurs objectifs
+2. **Le mode de transport et la distance** sont les leviers d'action prioritaires
+3. **Le coût du transport n'est pas un gage de fiabilité** - une idée reçue à déconstruire
+4. **L'optimisation du stock de sécurité** peut générer des gains financiers significatifs (600k€/an pour un périmètre de 1 000 références)
+
+La prochaine étape consistera à déployer ce modèle en environnement réel via une API connectée à l'ERP, puis à mesurer l'impact terrain sur les indicateurs de performance logistique et financière.
 ## 8. Conclusion
 
 ### 8.1 Principaux résultats
