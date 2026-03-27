@@ -1,1 +1,0 @@
-[▶️ Regarder la vidéo (7 min)](https://drive.google.com/file/d/1uju3gWL9n4iwqpj0nZea1z25rMJKerdA/view?usp=sharing)
